@@ -30,7 +30,7 @@ namespace aspnetcore3.Controllers
 
 
         [HttpGet("Add/{id}/{level}")]
-        public async Task<GridLockItem> Add(string Id, int? level, CancellationToken cancellation)
+        public async Task<Client> Add(string Id, int? level, CancellationToken cancellation)
         {
             return level switch
             {
