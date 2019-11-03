@@ -54,6 +54,15 @@ namespace aspnetcore3.Controllers
         }
 
 
+        [HttpGet("First")]
+        public async Task<Client> First(CancellationToken cancellation)
+        {
+            var response = await gridLock.ListAsync(cancellation);
+
+            return response.First().ToObject<Client>();
+        }
+
+
         [HttpGet("List")]
         public async Task<List<GridLockItem>> List(CancellationToken cancellation)
         {
