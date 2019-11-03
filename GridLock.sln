@@ -1,0 +1,17 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridLock", "GridLock.csproj", "{F4F07F44-6F5A-4670-B9CB-23E6467C0807}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F4F07F44-6F5A-4670-B9CB-23E6467C0807}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4F07F44-6F5A-4670-B9CB-23E6467C0807}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4F07F44-6F5A-4670-B9CB-23E6467C0807}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4F07F44-6F5A-4670-B9CB-23E6467C0807}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
