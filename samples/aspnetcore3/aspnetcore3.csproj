@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <Reference Include="GridLock">
-      <HintPath>..\..\bin\Debug\netcoreapp3.0\GridLock.dll</HintPath>
+      <HintPath>..\..\src\bin\Debug\netcoreapp3.0\GridLock.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
