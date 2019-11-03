@@ -55,22 +55,29 @@ namespace aspnetcore3.Controllers
 
 
         [HttpGet("First")]
-        public async Task<Client> First(CancellationToken cancellation)
+        public async Task<string> First(CancellationToken cancellation)
         {
-            var response = await gridLock.ListAsync(cancellation);
+            var response = await gridLock.ListAsync<Client>(cancellation);
 
-            return response.First().ToObject<Client>();
+            return response.First().DateTimeAdded.ToString();
         }
 
 
         [HttpGet("List")]
         public async Task<List<GridLockItem>> List(CancellationToken cancellation)
         {
-            var response = await gridLock.ListAsync(cancellation);
+            var response = await gridLock.ListAsync<GridLockItem>(cancellation);
 
             return response;
         }
 
+        [HttpGet("List2")]
+        public async Task<List<Client>> List2(CancellationToken cancellation)
+        {
+            var response = await gridLock.ListAsync<Client>(cancellation);
+
+            return response;
+        }
 
         public IEnumerable<WeatherForecast> Get()
         {
