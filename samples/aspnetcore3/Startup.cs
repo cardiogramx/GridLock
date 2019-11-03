@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+
+using GridLock.Extensions.DependencyInjection;
 
 namespace aspnetcore3
 {
@@ -25,6 +20,17 @@ namespace aspnetcore3
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //This adds GridLock with in-memory processing.
+            services.AddGridLock();
+
+
+            ////Consider using the overloaded method for load-balancer-friendly
+            //services.AddGridLock(options =>
+            //{
+            //    options.Configuration = "connectionString";
+            //    options.InstanceName = "SampleInstance";
+            //});
+
             services.AddControllers();
         }
 
