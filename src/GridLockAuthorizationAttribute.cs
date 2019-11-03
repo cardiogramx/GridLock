@@ -46,9 +46,9 @@ namespace GridLock.AspNetCore.Mvc.Authorization
         }
     }
 
-    public class LockAttribute : Attribute, IFilterFactory
+    public class LockedAttribute : Attribute, IFilterFactory
     {
-        public int[] AllowedLevels { get; set; }
+        public int[] AuthorizedLevels { get; set; }
 
         public bool IsReusable => false;
 
@@ -56,9 +56,9 @@ namespace GridLock.AspNetCore.Mvc.Authorization
         {
             var filter = serviceProvider.GetService<GridLockAuthorizationAttribute>();
 
-            if (AllowedLevels.Any())
+            if (AuthorizedLevels.Any())
             {
-                filter.Levels = AllowedLevels;
+                filter.Levels = AuthorizedLevels;
             }
 
             return filter;
