@@ -30,11 +30,11 @@ namespace GridLock
 
        
 
-        public async Task<List<GridLockItem>> ListAsync(CancellationToken cancellationToken = default)
+        public async Task<List<T>> ListAsync<T>(CancellationToken cancellationToken = default) where T : GridLockItem
         {
             try
             {
-                return await _storage.ReadAllObjectAsync(cancellationToken);
+                return await _storage.ReadAllObjectAsync<T>(cancellationToken);
             }
             catch (Exception ex)
             {
@@ -42,11 +42,11 @@ namespace GridLock
             }
         }
 
-        public async Task<GridLockItem> FindAsync(string Id, CancellationToken cancellationToken = default)
+        public async Task<T> FindAsync<T>(string Id, CancellationToken cancellationToken = default) where T : GridLockItem
         {
             try
             {
-                var _item = await _storage.ReadObjectAsync(Id, cancellationToken);
+                var _item = await _storage.ReadObjectAsync<T>(Id, cancellationToken);
                 return _item == null ? null : _item;
             }
             catch (Exception ex)
@@ -55,11 +55,11 @@ namespace GridLock
             }
         }
 
-        public async Task<GridLockItem> FindAsync(GridLockItem item, CancellationToken cancellationToken = default)
+        public async Task<T> FindAsync<T>(T item, CancellationToken cancellationToken = default) where T : GridLockItem
         {
             try
             {
-                var items = await _storage.ReadAllObjectAsync(cancellationToken);
+                var items = await _storage.ReadAllObjectAsync<T>(cancellationToken);
                 var _item = items.Find(c => c.Equals(item));
                 return _item == null ? null : _item;
             }
@@ -69,7 +69,7 @@ namespace GridLock
             }
         }
 
-        public async Task<GridLockItem> AddAsync(GridLockItem item, CancellationToken cancellationToken = default)
+        public async Task<T> AddAsync<T>(T item, CancellationToken cancellationToken = default) where T : GridLockItem
         {
             try
             {
@@ -87,13 +87,13 @@ namespace GridLock
             }
         }
 
-        public async Task<GridLockItem> UpdateAsync(GridLockItem item, CancellationToken cancellationToken = default)
+        public async Task<T> UpdateAsync<T>(T item, CancellationToken cancellationToken = default) where T : GridLockItem
         {
             try
             {
                 OnUpdating?.Invoke(null, new GridLockEventArgs() { Item = item });
 
-                await _storage.UpdateObjectAsync(item, cancellationToken);
+                await _storage.UpdateObjectAsync<T>(item, cancellationToken);
 
                 OnUpdated?.Invoke(null, new GridLockEventArgs() { Item = item });
 
@@ -106,11 +106,11 @@ namespace GridLock
             }
         }
 
-        public async Task<bool> ValidateAsync(string Id, CancellationToken cancellationToken = default)
+        public async Task<bool> ValidateAsync<T>(string Id, CancellationToken cancellationToken = default) where T : GridLockItem
         {
             try
             {
-                return await _storage.ReadObjectAsync(Id, cancellationToken) switch
+                return await _storage.ReadObjectAsync<T>(Id, cancellationToken) switch
                 {
                     null => false,
                     _ => true
@@ -122,11 +122,11 @@ namespace GridLock
             }
         }
 
-        public async Task<bool> ValidateAsync(GridLockItem item, CancellationToken cancellationToken = default)
+        public async Task<bool> ValidateAsync<T>(T item, CancellationToken cancellationToken = default) where T : GridLockItem
         {
             try
             {
-                return await _storage.ReadObjectAsync(item.Id, cancellationToken) switch
+                return await _storage.ReadObjectAsync<T>(item.Id, cancellationToken) switch
                 {
                     null => false,
                     _ => true
@@ -138,9 +138,9 @@ namespace GridLock
             }
         }
 
-        public async Task DestroyAsync(string Id, CancellationToken cancellationToken = default)
+        public async Task DestroyAsync<T>(string Id, CancellationToken cancellationToken = default) where T : GridLockItem
         {
-            var _item = await _storage.ReadObjectAsync(Id, cancellationToken);
+            var _item = await _storage.ReadObjectAsync<T>(Id, cancellationToken);
 
             if (_item != null)
             {
@@ -152,9 +152,9 @@ namespace GridLock
             }
         }
 
-        public async Task DestroyAsync(GridLockItem item, CancellationToken cancellationToken = default)
+        public async Task DestroyAsync<T>(T item, CancellationToken cancellationToken = default) where T : GridLockItem
         {
-            var items = await _storage.ReadAllObjectAsync(cancellationToken);
+            var items = await _storage.ReadAllObjectAsync<T>(cancellationToken);
 
             var _item = items.Find(c => c.Equals(item));
 
@@ -170,11 +170,11 @@ namespace GridLock
 
 
 
-        public List<GridLockItem> List()
+        public List<T> List<T>() where T : GridLockItem
         {
             try
             {
-                return _storage.ReadAllObject();
+                return _storage.ReadAllObject<T>();
             }
             catch (Exception ex)
             {
@@ -182,11 +182,11 @@ namespace GridLock
             }
         }
 
-        public GridLockItem Find(string Id)
+        public T Find<T>(string Id) where T : GridLockItem
         {
             try
             {
-                var _item = _storage.ReadObject(Id);
+                var _item = _storage.ReadObject<T>(Id);
 
                 return _item switch
                 {
@@ -200,11 +200,11 @@ namespace GridLock
             }
         }
 
-        public GridLockItem Find(GridLockItem item)
+        public T Find<T>(T item) where T : GridLockItem
         {
             try
             {
-                var _item = _storage.ReadAllObject().Find(c => c.Equals(item));
+                var _item = _storage.ReadAllObject<T>().Find(c => c.Equals(item));
 
                 return _item switch
                 {
@@ -218,7 +218,7 @@ namespace GridLock
             }
         }
 
-        public GridLockItem Add(GridLockItem item)
+        public T Add<T>(T item) where T : GridLockItem
         {
             try
             {
@@ -236,7 +236,7 @@ namespace GridLock
             }
         }
 
-        public GridLockItem Update(GridLockItem item)
+        public T Update<T>(T item) where T : GridLockItem
         {
             try
             {
@@ -255,11 +255,11 @@ namespace GridLock
             }
         }
 
-        public bool Validate(string Id)
+        public bool Validate<T>(string Id) where T : GridLockItem
         {
             try
             {
-                return _storage.ReadObjectAsync(Id) switch
+                return _storage.ReadObjectAsync<T>(Id) switch
                 {
                     null => false,
                     _ => true
@@ -271,11 +271,11 @@ namespace GridLock
             }
         }
 
-        public bool Validate(GridLockItem item)
+        public bool Validate<T>(T item) where T : GridLockItem
         {
             try
             {
-                return _storage.ReadObject(item.Id) switch
+                return _storage.ReadObject<T>(item.Id) switch
                 {
                     null => false,
                     _ => true
@@ -287,9 +287,9 @@ namespace GridLock
             }
         }
 
-        public void Destroy(string Id)
+        public void Destroy<T>(string Id) where T : GridLockItem
         {
-            var _item = _storage.ReadObject(Id);
+            var _item = _storage.ReadObject<T>(Id);
 
             if (_item != null)
             {
@@ -301,9 +301,9 @@ namespace GridLock
             }
         }
 
-        public void Destroy(GridLockItem item)
+        public void Destroy<T>(T item) where T : GridLockItem
         {
-            var _item = _storage.ReadAllObject().Find(c => c.Equals(item));
+            var _item = _storage.ReadAllObject<T>().Find(c => c.Equals(item));
 
             if (_item != null)
             {

@@ -10,9 +10,9 @@ namespace GridLock
             return gridLockItem as T;
         }
 
-        public static T ToObjects<T>(this List<GridLockItem> gridLockItems) where T : List<GridLockItem>
+        public static List<T> ToObjects<T>(this List<GridLockItem> gridLockItems) where T : GridLockItem
         {
-            return gridLockItems as T;
+            return gridLockItems as List<T>;
         }
     }
 }

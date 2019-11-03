@@ -10,26 +10,26 @@ namespace GridLock
     {
         DistributedCacheEntryOptions Options { get; set; }
 
-        Task<List<GridLockItem>> ListAsync(CancellationToken cancellationToken = default);
-        Task<GridLockItem> FindAsync(string Id, CancellationToken cancellationToken = default);
-        Task<GridLockItem> FindAsync(GridLockItem item, CancellationToken cancellationToken = default);
-        Task<GridLockItem> AddAsync(GridLockItem item, CancellationToken cancellationToken = default);
-        Task<GridLockItem> UpdateAsync(GridLockItem item, CancellationToken cancellationToken = default);
-        Task DestroyAsync(string key, CancellationToken cancellationToken = default);
-        Task DestroyAsync(GridLockItem item, CancellationToken cancellationToken = default);
-        Task<bool> ValidateAsync(string key, CancellationToken cancellationToken = default);
-        Task<bool> ValidateAsync(GridLockItem item, CancellationToken cancellationToken = default);
+        Task<List<T>> ListAsync<T>(CancellationToken cancellationToken = default) where T : GridLockItem;
+        Task<T> FindAsync<T>(string Id, CancellationToken cancellationToken = default) where T : GridLockItem;
+        Task<T> FindAsync<T>(T item, CancellationToken cancellationToken = default) where T : GridLockItem;
+        Task<T> AddAsync<T>(T item, CancellationToken cancellationToken = default) where T : GridLockItem;
+        Task<T> UpdateAsync<T>(T item, CancellationToken cancellationToken = default) where T : GridLockItem;
+        Task DestroyAsync<T>(string key, CancellationToken cancellationToken = default) where T : GridLockItem;
+        Task DestroyAsync<T>(T item, CancellationToken cancellationToken = default) where T : GridLockItem;
+        Task<bool> ValidateAsync<T>(string key, CancellationToken cancellationToken = default) where T : GridLockItem;
+        Task<bool> ValidateAsync<T>(T item, CancellationToken cancellationToken = default) where T : GridLockItem;
 
 
-        List<GridLockItem> List();
-        GridLockItem Find(string Id);
-        GridLockItem Find(GridLockItem item);
-        GridLockItem Add(GridLockItem itemt);
-        GridLockItem Update(GridLockItem item);
-        void Destroy(string key);
-        void Destroy(GridLockItem item);
-        bool Validate(string key);
-        bool Validate(GridLockItem item);
+        List<T> List<T>() where T : GridLockItem;
+        T Find<T>(string Id) where T : GridLockItem;
+        T Find<T>(T item) where T : GridLockItem;
+        T Add<T>(T item) where T : GridLockItem;
+        T Update<T>(T item) where T : GridLockItem;
+        void Destroy<T>(string key) where T : GridLockItem;
+        void Destroy<T>(T item) where T : GridLockItem;
+        bool Validate<T>(string key) where T : GridLockItem;
+        bool Validate<T>(T item) where T : GridLockItem;
 
 
         event EventHandler<GridLockEventArgs> OnComitting;

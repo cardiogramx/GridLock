@@ -26,13 +26,13 @@ namespace GridLock.AspNetCore.Mvc.Authorization
         {
             var id = context.HttpContext.Request.Headers["Authorization"].ToString().Split(' ')[1];
 
-            if (!string.IsNullOrWhiteSpace(id) && gridLock.List().Any(c => c.Id == id))
+            if (!string.IsNullOrWhiteSpace(id) && gridLock.List<GridLockItem>().Any(c => c.Id == id))
             {
                 if (Levels != null)
                 {
                     if (Levels.Any())
                     {
-                        if (!Levels.Contains(gridLock.List().Where(c => c.Id == id).Select(c => c.Level).SingleOrDefault()))
+                        if (!Levels.Contains(gridLock.List<GridLockItem>().Where(c => c.Id == id).Select(c => c.Level).SingleOrDefault()))
                         {
                             context.Result = new UnauthorizedObjectResult(HttpStatusCode.Forbidden);
                         }

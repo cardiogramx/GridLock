@@ -9,17 +9,17 @@ namespace GridLock.Extensions.Storage.Distributed
     {
         DistributedCacheEntryOptions Options { get; set; }
 
-        Task<GridLockItem> SaveObjectAsync(GridLockItem item, CancellationToken cancellationToken = default);
-        Task<GridLockItem> UpdateObjectAsync(GridLockItem item, CancellationToken cancellationToken = default);
-        Task<GridLockItem> ReadObjectAsync(string key, CancellationToken cancellationToken = default);
-        Task<List<GridLockItem>> ReadAllObjectAsync(CancellationToken cancellationToken = default);
+        Task<T> SaveObjectAsync<T>(T item, CancellationToken cancellationToken = default) where T : GridLockItem;
+        Task<T> UpdateObjectAsync<T>(T item, CancellationToken cancellationToken = default) where T : GridLockItem;
+        Task<T> ReadObjectAsync<T>(string key, CancellationToken cancellationToken = default) where T : GridLockItem;
+        Task<List<T>> ReadAllObjectAsync<T>(CancellationToken cancellationToken = default) where T : GridLockItem;
         Task RemoveObjectAsync(string key, CancellationToken cancellationToken = default);
         Task RemoveAllObjectAsync(CancellationToken cancellationToken = default);
 
-        GridLockItem SaveObject(GridLockItem item);
-        GridLockItem UpdateObject(GridLockItem item);
-        GridLockItem ReadObject(string key);
-        List<GridLockItem> ReadAllObject();
+        T SaveObject<T>(T item) where T : GridLockItem;
+        T UpdateObject<T>(T item) where T : GridLockItem;
+        T ReadObject<T>(string key) where T : GridLockItem;
+        List<T> ReadAllObject<T>() where T : GridLockItem;
         void RemoveObject(string key);
         void RemoveAllObject();
 

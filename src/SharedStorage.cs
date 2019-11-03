@@ -45,7 +45,7 @@ namespace GridLock.Extensions.Storage.Distributed
         }
 
 
-        public async Task<GridLockItem> SaveObjectAsync(GridLockItem item, CancellationToken cancellationToken = default)
+        public async Task<T> SaveObjectAsync<T>(T item, CancellationToken cancellationToken = default) where T : GridLockItem
         {
             var store = await GetStoredKeysAsync(cancellationToken);
 
@@ -63,7 +63,7 @@ namespace GridLock.Extensions.Storage.Distributed
             return item;
         }
 
-        public async Task<GridLockItem> UpdateObjectAsync(GridLockItem item, CancellationToken cancellationToken = default)
+        public async Task<T> UpdateObjectAsync<T>(T item, CancellationToken cancellationToken = default) where T : GridLockItem
         {
             var store = await GetStoredKeysAsync(cancellationToken);
 
@@ -81,7 +81,7 @@ namespace GridLock.Extensions.Storage.Distributed
             return item;
         }
 
-        public async Task<GridLockItem> ReadObjectAsync(string key, CancellationToken cancellationToken = default)
+        public async Task<T> ReadObjectAsync<T>(string key, CancellationToken cancellationToken = default) where T : GridLockItem
         {
             if (string.IsNullOrWhiteSpace(key))
             {
@@ -92,22 +92,22 @@ namespace GridLock.Extensions.Storage.Distributed
 
             if (string.IsNullOrWhiteSpace(json))
             {
-                await RemoveKeyAsync(key);
+                await RemoveKeyAsync(key, cancellationToken);
                 return null;
             }
 
-            var response = JsonConvert.DeserializeObject<GridLockItem>(json);
+            var response = JsonConvert.DeserializeObject<T>(json);
 
             return response;
         }
 
-        public async Task<List<GridLockItem>> ReadAllObjectAsync(CancellationToken cancellationToken = default)
+        public async Task<List<T>> ReadAllObjectAsync<T>(CancellationToken cancellationToken = default) where T : GridLockItem
         {
-            var gridList = new List<GridLockItem>();
+            var gridList = new List<T>();
 
-            foreach (var key in await GetStoredKeysAsync())
+            foreach (var key in await GetStoredKeysAsync(cancellationToken))
             {
-                gridList.Add(await ReadObjectAsync(key));
+                gridList.Add(await ReadObjectAsync<T>(key, cancellationToken));
             }
 
             return gridList;
@@ -131,7 +131,7 @@ namespace GridLock.Extensions.Storage.Distributed
 
 
 
-        public GridLockItem SaveObject(GridLockItem item)
+        public T SaveObject<T>(T item) where T : GridLockItem
         {
             if (GetStoredKeys().Contains(item.Id))
             {
@@ -147,7 +147,7 @@ namespace GridLock.Extensions.Storage.Distributed
             return item;
         }
 
-        public GridLockItem UpdateObject(GridLockItem item)
+        public T UpdateObject<T>(T item) where T : GridLockItem
         {
             if (GetStoredKeys().Contains(item.Id))
             {
@@ -163,7 +163,7 @@ namespace GridLock.Extensions.Storage.Distributed
             return item;
         }
 
-        public GridLockItem ReadObject(string key)
+        public T ReadObject<T>(string key) where T : GridLockItem
         {
             if (string.IsNullOrWhiteSpace(key))
             {
@@ -178,18 +178,18 @@ namespace GridLock.Extensions.Storage.Distributed
                 return null;
             }
 
-            var response = JsonConvert.DeserializeObject<GridLockItem>(json);
+            var response = JsonConvert.DeserializeObject<T>(json);
 
             return response;
         }
 
-        public List<GridLockItem> ReadAllObject()
+        public List<T> ReadAllObject<T>() where T : GridLockItem
         {
-            var gridList = new List<GridLockItem>();
+            var gridList = new List<T>();
 
             foreach (var key in GetStoredKeys())
             {
-                gridList.Add(ReadObject(key));
+                gridList.Add(ReadObject<T>(key));
             }
 
             return gridList;
