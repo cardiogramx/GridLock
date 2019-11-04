@@ -8,6 +8,7 @@ using System.Threading;
 
 using GridLock.AspNetCore.Mvc.Authorization;
 using GridLock;
+using Newtonsoft.Json;
 
 namespace aspnetcore3.Controllers
 {
@@ -26,8 +27,17 @@ namespace aspnetcore3.Controllers
         {
             _logger = logger;
             this.gridLock = gridLock;
+
+            this.gridLock.OnComitting += GridLock_OnComitting;
         }
 
+        private void GridLock_OnComitting(object sender, GridLockEventArgs e)
+        {
+            var client = e.Item as Client;
+            _logger.LogInformation(JsonConvert.SerializeObject(client));
+
+            //do useful work
+        }
 
         [HttpGet("Add/{id}/{level}")]
         public async Task<Client> Add(string Id, int? level, CancellationToken cancellation)
