@@ -26,6 +26,14 @@ namespace aspnetcore3.Controllers
         public WeatherForecastController(ILogger<WeatherForecastController> logger, IGridLock gridLock)
         {
             _logger = logger;
+
+            //GridLock custom configuration
+            gridLock.Options = new Microsoft.Extensions.Caching.Distributed.DistributedCacheEntryOptions
+            {
+                //AbsoluteExpiration = DateTime.UtcNow.AddDays(1),
+                SlidingExpiration = TimeSpan.FromHours(1)
+            };
+
             this.gridLock = gridLock;
 
             this.gridLock.OnComitting += GridLock_OnComitting;
