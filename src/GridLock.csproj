@@ -3,6 +3,22 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <ReleaseVersion>1.0.0</ReleaseVersion>
+    <PackOnBuild>true</PackOnBuild>
+    <Authors>cardiogramx</Authors>
+    <Description>GridLock helps you manage authentication and authorization while letting developers focus on other parts of the development.
+
+GridLock implements IDistributedCache thereby ensuring speed in its applications. It also provides an option to use RedisCache to be Load-Balancers-friendly.</Description>
+    <PackageId>GridLock</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Copyright>Felix Kolawole</Copyright>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Owners>cardiogramx</Owners>
+    <PackageProjectUrl>https://github.com/cardiogramx/GridLock</PackageProjectUrl>
+    <Summary>GridLock helps you manage authentication and authorization while letting developers focus on other parts of the development.
+
+GridLock implements IDistributedCache thereby ensuring speed in its applications. It also provides an option to use RedisCache to be Load-Balancers-friendly.
+</Summary>
+    <Title>GridLock</Title>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,5 +26,10 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="3.0.0" />
+    <PackageReference Include="NuGet.Build.Packaging" Version="0.2.5-dev.8">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
 </Project>
