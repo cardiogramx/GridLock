@@ -36,15 +36,6 @@ namespace GridLock.Extensions.Storage.Distributed
             };
         }
 
-        /// <summary>
-        /// An overloaded contructor for custom instantiation
-        /// </summary>
-        /// <param name="options">sets of configurations for the behavior of the shared storage</param>
-        public SharedStorage(DistributedCacheEntryOptions options)
-        {
-            _options = options;
-        }
-
 
         public async Task<T> SaveObjectAsync<T>(T item, CancellationToken cancellationToken = default) where T : GridLockItem
         {
