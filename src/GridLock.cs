@@ -323,4 +323,14 @@ namespace GridLock
         public event EventHandler<GridLockEventArgs> OnUpdating;
         public event EventHandler<GridLockEventArgs> OnUpdated;
     }
+
+    public class GridLockItem
+    {
+        public string Id { get; set; }
+
+        public int Level { get; set; }
+
+        public DateTime ExpireBy { get; set; }
+    }
+
 }
