@@ -73,7 +73,7 @@ namespace GridLock.Extensions.Storage.Distributed
                 await RemoveObjectAsync(item.Id, cancellationToken);
             }
 
-            var json = JsonSerializer.Serialize(item); //JsonConvert.SerializeObject(item);
+            var json = JsonSerializer.Serialize(item);
 
             await _distributedCache.SetStringAsync(item.Id, json, _options, cancellationToken);
 
@@ -213,7 +213,10 @@ namespace GridLock.Extensions.Storage.Distributed
         }
 
 
-
+        /// <summary>
+        /// Stores a tracking key into the distributed cache storage using the specified key
+        /// </summary>
+        /// <param name="key"></param>
         private void StoreKey(string key)
         {
             var keyList = GetStoredKeys();
@@ -228,6 +231,13 @@ namespace GridLock.Extensions.Storage.Distributed
             }
         }
 
+
+        /// <summary>
+        /// Asynchronously stores a tracking key into the distributed cache storage using the specified key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         private async Task StoreKeyAsync(string key, CancellationToken cancellationToken = default)
         {
             var keyList = await GetStoredKeysAsync(cancellationToken);
@@ -243,6 +253,10 @@ namespace GridLock.Extensions.Storage.Distributed
         }
 
 
+        /// <summary>
+        /// Gets the list of tracking keys from the distributed cache storage
+        /// </summary>
+        /// <returns></returns>
         private List<string> GetStoredKeys()
         {
             var json = _distributedCache.GetString("keyList");
@@ -255,6 +269,12 @@ namespace GridLock.Extensions.Storage.Distributed
             return JsonSerializer.Deserialize<List<string>>(json);
         }
 
+
+        /// <summary>
+        /// Asynchronously gets the list of tracking keys from the distributed cache storage
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         private async Task<List<string>> GetStoredKeysAsync(CancellationToken cancellationToken = default)
         {
             var json = await _distributedCache.GetStringAsync("keyList", cancellationToken);
@@ -268,6 +288,10 @@ namespace GridLock.Extensions.Storage.Distributed
         }
 
 
+        /// <summary>
+        /// Removes a tracking key from the distributed cache storage using the specified key
+        /// </summary>
+        /// <param name="key"></param>
         private void RemoveKey(string key)
         {
             var keyList = GetStoredKeys();
@@ -282,6 +306,12 @@ namespace GridLock.Extensions.Storage.Distributed
             }
         }
 
+        /// <summary>
+        /// Asynchronously removes a tracking key from the distributed cache storage using the specified key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         private async Task RemoveKeyAsync(string key, CancellationToken cancellationToken = default)
         {
             var keyList = await GetStoredKeysAsync(cancellationToken);
