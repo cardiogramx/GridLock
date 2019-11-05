@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
-using Newtonsoft.Json;
+using System.Text.Json;
+//using Newtonsoft.Json;
 
 namespace GridLock.Extensions.Storage.Distributed
 {
@@ -54,7 +55,7 @@ namespace GridLock.Extensions.Storage.Distributed
                 return item;
             }
 
-            var json = JsonConvert.SerializeObject(item);
+            var json = JsonSerializer.Serialize(item);// JsonConvert.SerializeObject(item);
 
             await _distributedCache.SetStringAsync(item.Id, json, _options, cancellationToken);
 
@@ -72,7 +73,7 @@ namespace GridLock.Extensions.Storage.Distributed
                 await RemoveObjectAsync(item.Id, cancellationToken);
             }
 
-            var json = JsonConvert.SerializeObject(item);
+            var json = JsonSerializer.Serialize(item); //JsonConvert.SerializeObject(item);
 
             await _distributedCache.SetStringAsync(item.Id, json, _options, cancellationToken);
 
@@ -96,7 +97,7 @@ namespace GridLock.Extensions.Storage.Distributed
                 return null;
             }
 
-            var response = JsonConvert.DeserializeObject<T>(json);
+            var response = JsonSerializer.Deserialize<T>(json);
 
             return response;
         }
@@ -138,7 +139,7 @@ namespace GridLock.Extensions.Storage.Distributed
                 return item;
             }
 
-            var json = JsonConvert.SerializeObject(item);
+            var json = JsonSerializer.Serialize(item);
 
             _distributedCache.SetString(item.Id, json, _options);
 
@@ -154,7 +155,7 @@ namespace GridLock.Extensions.Storage.Distributed
                 RemoveObject(item.Id);
             }
 
-            var json = JsonConvert.SerializeObject(item);
+            var json = JsonSerializer.Serialize(item);
 
             _distributedCache.SetString(item.Id, json, _options);
 
@@ -178,7 +179,7 @@ namespace GridLock.Extensions.Storage.Distributed
                 return null;
             }
 
-            var response = JsonConvert.DeserializeObject<T>(json);
+            var response = JsonSerializer.Deserialize<T>(json);
 
             return response;
         }
@@ -221,7 +222,7 @@ namespace GridLock.Extensions.Storage.Distributed
             {
                 keyList.Add(key);
 
-                var json = JsonConvert.SerializeObject(keyList);
+                var json = JsonSerializer.Serialize(keyList); //JsonConvert.SerializeObject(keyList);
 
                 _distributedCache.SetString("keyList", json);
             }
@@ -235,7 +236,7 @@ namespace GridLock.Extensions.Storage.Distributed
             {
                 keyList.Add(key);
 
-                var json = JsonConvert.SerializeObject(keyList);
+                var json = JsonSerializer.Serialize(keyList);// JsonConvert.SerializeObject(keyList);
 
                 await _distributedCache.SetStringAsync("keyList", json, cancellationToken);
             }
@@ -251,7 +252,7 @@ namespace GridLock.Extensions.Storage.Distributed
                 return new List<string>();
             }
 
-            return JsonConvert.DeserializeObject<List<string>>(json);
+            return JsonSerializer.Deserialize<List<string>>(json);
         }
 
         private async Task<List<string>> GetStoredKeysAsync(CancellationToken cancellationToken = default)
@@ -263,7 +264,7 @@ namespace GridLock.Extensions.Storage.Distributed
                 return new List<string>();
             }
 
-            return JsonConvert.DeserializeObject<List<string>>(json);
+            return JsonSerializer.Deserialize<List<string>>(json);
         }
 
 
@@ -275,7 +276,7 @@ namespace GridLock.Extensions.Storage.Distributed
             {
                 keyList.Remove(key);
 
-                var json = JsonConvert.SerializeObject(keyList);
+                var json = JsonSerializer.Serialize(keyList);// JsonConvert.SerializeObject(keyList);
 
                 _distributedCache.SetString("keyList", json);
             }
@@ -289,7 +290,7 @@ namespace GridLock.Extensions.Storage.Distributed
             {
                 keyList.Remove(key);
 
-                var json = JsonConvert.SerializeObject(keyList);
+                var json = JsonSerializer.Serialize(keyList); //JsonConvert.SerializeObject(keyList);
 
                 await _distributedCache.SetStringAsync("keyList", json, cancellationToken);
             }

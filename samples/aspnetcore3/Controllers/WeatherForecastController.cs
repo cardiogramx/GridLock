@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading;
+using System.Text.Json;
 
 using GridLock.AspNetCore.Mvc.Authorization;
 using GridLock;
-using Newtonsoft.Json;
 
 namespace aspnetcore3.Controllers
 {
@@ -42,7 +42,7 @@ namespace aspnetcore3.Controllers
         private void GridLock_OnComitting(object sender, GridLockEventArgs e)
         {
             var client = e.Item as Client;
-            _logger.LogInformation(JsonConvert.SerializeObject(client));
+            _logger.LogInformation(JsonSerializer.Serialize(client));
 
             //do useful work
         }

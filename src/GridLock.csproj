@@ -9,7 +9,7 @@
 
 GridLock implements IDistributedCache thereby ensuring speed in its applications. It also provides an option to use RedisCache to be Load-Balancers-friendly.</Description>
     <PackageId>GridLock</PackageId>
-    <PackageVersion>1.0.0</PackageVersion>
+    <PackageVersion>1.0.1</PackageVersion>
     <Copyright>Felix Kolawole</Copyright>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Owners>cardiogramx</Owners>
@@ -30,6 +30,5 @@ GridLock implements IDistributedCache thereby ensuring speed in its applications
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
 </Project>
