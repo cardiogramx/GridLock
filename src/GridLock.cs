@@ -2,8 +2,9 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Threading;
-using GridLock.Extensions.Storage.Distributed;
 using Microsoft.Extensions.Caching.Distributed;
+
+using GridLock.Extensions.Storage.Distributed;
 
 namespace GridLock
 {
@@ -73,11 +74,11 @@ namespace GridLock
         {
             try
             {
-                OnComitting?.Invoke(null, new GridLockEventArgs() { Item = item });
+                OnAdding?.Invoke(null, new GridLockEventArgs() { Item = item });
 
                 await _storage.SaveObjectAsync(item, cancellationToken);
 
-                OnComitted?.Invoke(null, new GridLockEventArgs() { Item = item });
+                OnAdded?.Invoke(null, new GridLockEventArgs() { Item = item });
 
                 return item;
             }
@@ -144,11 +145,11 @@ namespace GridLock
 
             if (_item != null)
             {
-                OnDeleting?.Invoke(null, new GridLockEventArgs() { Item = _item });
+                OnDestroying?.Invoke(null, new GridLockEventArgs() { Item = _item });
 
                 await _storage.RemoveObjectAsync(Id, cancellationToken);
 
-                OnDeleted?.Invoke(null, new GridLockEventArgs() { Item = _item });
+                OnDestroyed?.Invoke(null, new GridLockEventArgs() { Item = _item });
             }
         }
 
@@ -160,11 +161,11 @@ namespace GridLock
 
             if (_item != null)
             {
-                OnDeleting?.Invoke(null, new GridLockEventArgs() { Item = _item });
+                OnDestroying?.Invoke(null, new GridLockEventArgs() { Item = _item });
 
                 await _storage.RemoveObjectAsync(item.Id, cancellationToken);
 
-                OnDeleted?.Invoke(null, new GridLockEventArgs() { Item = _item });
+                OnDestroyed?.Invoke(null, new GridLockEventArgs() { Item = _item });
             }
         }
 
@@ -222,11 +223,11 @@ namespace GridLock
         {
             try
             {
-                OnComitting?.Invoke(null, new GridLockEventArgs() { Item = item });
+                OnAdding?.Invoke(null, new GridLockEventArgs() { Item = item });
 
                 _storage.SaveObject(item);
 
-                OnComitted?.Invoke(null, new GridLockEventArgs() { Item = item });
+                OnAdded?.Invoke(null, new GridLockEventArgs() { Item = item });
 
                 return item;
             }
@@ -293,11 +294,11 @@ namespace GridLock
 
             if (_item != null)
             {
-                OnDeleting?.Invoke(null, new GridLockEventArgs() { Item = _item });
+                OnDestroying?.Invoke(null, new GridLockEventArgs() { Item = _item });
 
                 _storage.RemoveObject(Id);
 
-                OnDeleted?.Invoke(null, new GridLockEventArgs() { Item = _item });
+                OnDestroyed?.Invoke(null, new GridLockEventArgs() { Item = _item });
             }
         }
 
@@ -307,28 +308,20 @@ namespace GridLock
 
             if (_item != null)
             {
-                OnDeleting?.Invoke(null, new GridLockEventArgs() { Item = _item });
+                OnDestroying?.Invoke(null, new GridLockEventArgs() { Item = _item });
 
                 _storage.RemoveObject(item.Id);
 
-                OnDeleted?.Invoke(null, new GridLockEventArgs() { Item = _item });
+                OnDestroyed?.Invoke(null, new GridLockEventArgs() { Item = _item });
             }
         }
 
 
-        public event EventHandler<GridLockEventArgs> OnComitting;
-        public event EventHandler<GridLockEventArgs> OnComitted;
-        public event EventHandler<GridLockEventArgs> OnDeleting;
-        public event EventHandler<GridLockEventArgs> OnDeleted;
+        public event EventHandler<GridLockEventArgs> OnAdding;
+        public event EventHandler<GridLockEventArgs> OnAdded;
+        public event EventHandler<GridLockEventArgs> OnDestroying;
+        public event EventHandler<GridLockEventArgs> OnDestroyed;
         public event EventHandler<GridLockEventArgs> OnUpdating;
         public event EventHandler<GridLockEventArgs> OnUpdated;
     }
-
-    public class GridLockItem
-    {
-        public string Id { get; set; }
-
-        public int Level { get; set; }
-    }
-
 }
