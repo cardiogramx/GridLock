@@ -7,8 +7,6 @@ namespace GridLock
         public string Id { get; set; }
 
         public int Level { get; set; }
-
-        public DateTime ExpiresBy { get; internal set; }
     }
 
 }

@@ -45,10 +45,6 @@ namespace GridLock.Extensions.Storage.Distributed
                 return item;
             }
 
-            item.ExpiresBy = _options.SlidingExpiration.HasValue ? DateTime.UtcNow.AddSeconds(_options.SlidingExpiration.Value.TotalSeconds) : DateTime.UtcNow.AddMinutes(5);
-            item.ExpiresBy = _options.AbsoluteExpiration.HasValue ? _options.AbsoluteExpiration.Value.DateTime : item.ExpiresBy;
-            item.ExpiresBy = _options.AbsoluteExpirationRelativeToNow.HasValue ? DateTime.UtcNow.AddSeconds(_options.AbsoluteExpirationRelativeToNow.Value.TotalSeconds) : item.ExpiresBy;
-
             var json = JsonSerializer.Serialize(item);// JsonConvert.SerializeObject(item);
 
             await _distributedCache.SetStringAsync(item.Id, json, _options, cancellationToken);
@@ -66,8 +62,6 @@ namespace GridLock.Extensions.Storage.Distributed
             {
                 await RemoveObjectAsync(item.Id, cancellationToken);
             }
-
-            item.ExpiresBy = _options.SlidingExpiration.HasValue ? DateTime.UtcNow.AddSeconds(_options.SlidingExpiration.Value.TotalSeconds) : item.ExpiresBy;
 
             var json = JsonSerializer.Serialize(item);
 
@@ -135,10 +129,6 @@ namespace GridLock.Extensions.Storage.Distributed
                 return item;
             }
 
-            item.ExpiresBy = _options.SlidingExpiration.HasValue ? DateTime.UtcNow.AddSeconds(_options.SlidingExpiration.Value.TotalSeconds) : DateTime.UtcNow.AddMinutes(5);
-            item.ExpiresBy = _options.AbsoluteExpiration.HasValue ? _options.AbsoluteExpiration.Value.DateTime : item.ExpiresBy;
-            item.ExpiresBy = _options.AbsoluteExpirationRelativeToNow.HasValue ? DateTime.UtcNow.AddSeconds(_options.AbsoluteExpirationRelativeToNow.Value.TotalSeconds) : item.ExpiresBy;
-
             var json = JsonSerializer.Serialize(item);
 
             _distributedCache.SetString(item.Id, json, _options);
@@ -154,8 +144,6 @@ namespace GridLock.Extensions.Storage.Distributed
             {
                 RemoveObject(item.Id);
             }
-
-            item.ExpiresBy = _options.SlidingExpiration.HasValue ? DateTime.UtcNow.AddSeconds(_options.SlidingExpiration.Value.TotalSeconds) : item.ExpiresBy;
            
             var json = JsonSerializer.Serialize(item);
 
