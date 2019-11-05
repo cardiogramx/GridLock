@@ -329,6 +329,8 @@ namespace GridLock
         public string Id { get; set; }
 
         public int Level { get; set; }
+
+        public DateTime ExpireBy { get; set; }
     }
 
 }
