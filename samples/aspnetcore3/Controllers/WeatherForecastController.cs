@@ -36,15 +36,13 @@ namespace aspnetcore3.Controllers
 
             this.gridLock = gridLock;
 
-            this.gridLock.OnComitting += GridLock_OnComitting;
+            this.gridLock.OnAdding += GridLock_OnAdding;
         }
 
-        private void GridLock_OnComitting(object sender, GridLockEventArgs e)
+        private void GridLock_OnAdding(object sender, GridLockEventArgs e)
         {
             var client = e.Item as Client;
             _logger.LogInformation(JsonSerializer.Serialize(client));
-
-            //do useful work
         }
 
         [HttpGet("Add/{id}/{level}")]

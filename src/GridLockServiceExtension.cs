@@ -3,7 +3,6 @@ using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.DependencyInjection;
 using GridLock.AspNetCore.Mvc.Authorization;
 using GridLock.Extensions.Storage.Distributed;
-using Microsoft.Extensions.Caching.Distributed;
 
 namespace GridLock.Extensions.DependencyInjection
 {

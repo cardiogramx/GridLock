@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using GridLock.Extensions.DependencyInjection;
+using GridLock;
 
 namespace aspnetcore3
 {
@@ -35,12 +36,15 @@ namespace aspnetcore3
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IGridLock gridLock)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            //using the GridLock middleware
+            //app.UseGridLock(gridLock);
 
             app.UseHttpsRedirection();
 
