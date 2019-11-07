@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 
 using GridLock.Extensions.DependencyInjection;
 using GridLock;
+using System;
 
 namespace aspnetcore3
 {
@@ -31,6 +32,7 @@ namespace aspnetcore3
             //    options.Configuration = "connectionString";
             //    options.InstanceName = "SampleInstance";
             //});
+
 
             services.AddControllers();
         }

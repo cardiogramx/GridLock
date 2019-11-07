@@ -4,11 +4,11 @@ namespace GridLock
 {
     public class GridLockItem
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString("N");
+        public string Id { get; set; }
 
         public int Level { get; set; } = 0;
 
-        public DateTime ExpiresBy { get; internal set; } = DateTime.UtcNow;
+        public DateTime ExpiresOn { get; set; }
     }
 
 }

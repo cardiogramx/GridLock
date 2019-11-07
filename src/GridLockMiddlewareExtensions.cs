@@ -6,6 +6,10 @@ namespace GridLock
 {
     public static class GridLockMiddlewareExtension
     {
+        /// <summary>
+        /// Uses GridLock middleware to lock down your application.
+        /// </summary>
+        /// <param name="app"></param>
         public static void UseGridLock(this IApplicationBuilder app)
         {
             app.Use(async (context, next) =>

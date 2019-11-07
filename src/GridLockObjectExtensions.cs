@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace GridLock
 {
-    public static class GridLockExtensions
+    public static class GridLockObjectExtensions
     {
         public static T ToObject<T>(this GridLockItem gridLockItem) where T : GridLockItem
         {
@@ -15,4 +14,5 @@ namespace GridLock
             return gridLockItems as List<T>;
         }
     }
+
 }

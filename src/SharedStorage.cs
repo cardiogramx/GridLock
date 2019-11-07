@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using System.Text.Json;
+using System.Data;
 
 namespace GridLock.Extensions.Storage.Distributed
 {
@@ -21,19 +22,12 @@ namespace GridLock.Extensions.Storage.Distributed
             set => _options = value;
         }
 
-        /// <summary>
-        /// The default constructor for Dependency Injection
-        /// </summary>
-        /// <param name="cache"></param>
+        
         public SharedStorage(IDistributedCache cache)
         {
             _distributedCache = cache;
-
-            _options = new DistributedCacheEntryOptions()
-            {
-                SlidingExpiration = TimeSpan.FromSeconds(10)
-            };
         }
+
 
 
         public async Task<T> SaveObjectAsync<T>(T item, CancellationToken cancellationToken = default) where T : GridLockItem
@@ -42,10 +36,14 @@ namespace GridLock.Extensions.Storage.Distributed
 
             if (store.Contains(item.Id))
             {
-                return item;
+                throw new GridLockException("object already exists", new DuplicateNameException(nameof(T)));
             }
 
-            var json = JsonSerializer.Serialize(item);// JsonConvert.SerializeObject(item);
+            item.ExpiresOn = (_options.SlidingExpiration.HasValue) ? DateTime.UtcNow.AddMilliseconds(_options.SlidingExpiration.Value.TotalMilliseconds) : DateTime.UtcNow.AddMinutes(5);
+            item.ExpiresOn = (_options.AbsoluteExpiration.HasValue) ? _options.AbsoluteExpiration.Value.DateTime : item.ExpiresOn;
+            item.ExpiresOn = (_options.AbsoluteExpirationRelativeToNow.HasValue) ? DateTime.UtcNow.AddMilliseconds(_options.AbsoluteExpirationRelativeToNow.Value.TotalMilliseconds) : item.ExpiresOn;
+
+            var json = JsonSerializer.Serialize(item);
 
             await _distributedCache.SetStringAsync(item.Id, json, _options, cancellationToken);
 
@@ -63,13 +61,7 @@ namespace GridLock.Extensions.Storage.Distributed
                 await RemoveObjectAsync(item.Id, cancellationToken);
             }
 
-            var json = JsonSerializer.Serialize(item);
-
-            await _distributedCache.SetStringAsync(item.Id, json, _options, cancellationToken);
-
-            await StoreKeyAsync(item.Id, cancellationToken);
-
-            return item;
+            return await SaveObjectAsync(item, cancellationToken);
         }
 
         public async Task<T> ReadObjectAsync<T>(string key, CancellationToken cancellationToken = default) where T : GridLockItem
@@ -126,8 +118,12 @@ namespace GridLock.Extensions.Storage.Distributed
         {
             if (GetStoredKeys().Contains(item.Id))
             {
-                return item;
+                throw new GridLockException("object already exists", new DuplicateNameException(nameof(T)));
             }
+
+            item.ExpiresOn = (_options.SlidingExpiration.HasValue) ? DateTime.UtcNow.AddMilliseconds(_options.SlidingExpiration.Value.TotalMilliseconds) : DateTime.UtcNow.AddMinutes(5);
+            item.ExpiresOn = (_options.AbsoluteExpiration.HasValue) ? _options.AbsoluteExpiration.Value.DateTime : item.ExpiresOn;
+            item.ExpiresOn = (_options.AbsoluteExpirationRelativeToNow.HasValue) ? DateTime.UtcNow.AddMilliseconds(_options.AbsoluteExpirationRelativeToNow.Value.TotalMilliseconds) : item.ExpiresOn;
 
             var json = JsonSerializer.Serialize(item);
 
@@ -144,14 +140,8 @@ namespace GridLock.Extensions.Storage.Distributed
             {
                 RemoveObject(item.Id);
             }
-           
-            var json = JsonSerializer.Serialize(item);
 
-            _distributedCache.SetString(item.Id, json, _options);
-
-            StoreKey(item.Id);
-
-            return item;
+            return SaveObject(item);
         }
 
         public T ReadObject<T>(string key) where T : GridLockItem
