@@ -23,6 +23,7 @@ namespace aspnetcore3.Controllers
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IGridLock gridLock;
 
+
         public WeatherForecastController(ILogger<WeatherForecastController> logger, IGridLock gridLock)
         {
             _logger = logger;
@@ -30,8 +31,9 @@ namespace aspnetcore3.Controllers
             //GridLock custom configuration
             gridLock.Options = new Microsoft.Extensions.Caching.Distributed.DistributedCacheEntryOptions
             {
-                //AbsoluteExpiration = DateTime.UtcNow.AddDays(1),
-                SlidingExpiration = TimeSpan.FromHours(1)
+            //    AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(5),
+            //    AbsoluteExpiration = DateTime.UtcNow.AddHours(5),
+               SlidingExpiration = TimeSpan.FromMinutes(5)
             };
 
             this.gridLock = gridLock;
@@ -39,15 +41,17 @@ namespace aspnetcore3.Controllers
             this.gridLock.OnAdding += GridLock_OnAdding;
         }
 
+
+        [NonAction]
         private void GridLock_OnAdding(object sender, GridLockEventArgs e)
         {
-            var client = e.Item as Client;
-            _logger.LogInformation(JsonSerializer.Serialize(client));
+            _logger.LogInformation(JsonSerializer.Serialize(e.Item as Client));
         }
+
 
         [HttpGet("Add/{id}/{level}")]
         public async Task<Client> Add(string Id, int? level, CancellationToken cancellation)
-        {
+        { 
             return level switch
             {
                 null => await gridLock.AddAsync(new Client { Id = Id, Level = 1 }),

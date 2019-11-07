@@ -19,17 +19,12 @@ namespace GridLock
             get => _storage.Options;
             set => _storage.Options = value; }
 
-        public GridLock(SharedStorage storage)
-        {
-            _storage = storage;
-        }
-
         public GridLock(ISharedStorage storage)
         {
             _storage = storage;
         }
 
-       
+
 
         public async Task<List<T>> ListAsync<T>(CancellationToken cancellationToken = default) where T : GridLockItem
         {
