@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+
 using Microsoft.Extensions.DependencyInjection;
 
-namespace GridLock
+
+namespace GridLock.AspNetCore.Mvc
 {
     public static class GridLockMiddlewareExtension
     {

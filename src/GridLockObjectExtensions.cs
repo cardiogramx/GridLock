@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GridLock
+namespace GridLock.Extensions.Collections
 {
     public static class GridLockObjectExtensions
     {

@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Linq;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
+
 using System.Net;
+
 
 namespace GridLock.AspNetCore.Mvc.Authorization
 {

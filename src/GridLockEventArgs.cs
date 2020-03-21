@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GridLock
+namespace GridLock.Events
 {
     /// <summary>
     /// Represents the base class that every GridLockEventArgs item must inherit from.

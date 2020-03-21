@@ -1,5 +1,6 @@
 ﻿using System;
-namespace GridLock
+
+namespace GridLock.Exceptions
 {
 
     [Serializable]

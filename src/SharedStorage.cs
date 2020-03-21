@@ -6,6 +6,9 @@ using Microsoft.Extensions.Caching.Distributed;
 using System.Text.Json;
 using System.Data;
 
+using GridLock.Exceptions;
+
+
 namespace GridLock.Extensions.Storage.Distributed
 {
     /// <summary>

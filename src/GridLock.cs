@@ -2,9 +2,12 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Threading;
+
 using Microsoft.Extensions.Caching.Distributed;
 
 using GridLock.Extensions.Storage.Distributed;
+using GridLock.Events;
+
 
 namespace GridLock
 {
@@ -69,11 +72,11 @@ namespace GridLock
         {
             try
             {
-                OnAdding?.Invoke(null, new GridLockEventArgs() { Item = item });
+                OnAdding?.Invoke(this, new GridLockEventArgs() { Item = item });
 
                 await _storage.SaveObjectAsync(item, cancellationToken);
 
-                OnAdded?.Invoke(null, new GridLockEventArgs() { Item = item });
+                OnAdded?.Invoke(this, new GridLockEventArgs() { Item = item });
 
                 return item;
             }
@@ -87,11 +90,11 @@ namespace GridLock
         {
             try
             {
-                OnUpdating?.Invoke(null, new GridLockEventArgs() { Item = item });
+                OnUpdating?.Invoke(this, new GridLockEventArgs() { Item = item });
 
                 await _storage.UpdateObjectAsync<T>(item, cancellationToken);
 
-                OnUpdated?.Invoke(null, new GridLockEventArgs() { Item = item });
+                OnUpdated?.Invoke(this, new GridLockEventArgs() { Item = item });
 
                 return item;
             }
@@ -140,11 +143,11 @@ namespace GridLock
 
             if (_item != null)
             {
-                OnDestroying?.Invoke(null, new GridLockEventArgs() { Item = _item });
+                OnDestroying?.Invoke(this, new GridLockEventArgs() { Item = _item });
 
                 await _storage.RemoveObjectAsync(Id, cancellationToken);
 
-                OnDestroyed?.Invoke(null, new GridLockEventArgs() { Item = _item });
+                OnDestroyed?.Invoke(this, new GridLockEventArgs() { Item = _item });
             }
         }
 
@@ -156,11 +159,11 @@ namespace GridLock
 
             if (_item != null)
             {
-                OnDestroying?.Invoke(null, new GridLockEventArgs() { Item = _item });
+                OnDestroying?.Invoke(this, new GridLockEventArgs() { Item = _item });
 
                 await _storage.RemoveObjectAsync(item.Id, cancellationToken);
 
-                OnDestroyed?.Invoke(null, new GridLockEventArgs() { Item = _item });
+                OnDestroyed?.Invoke(this, new GridLockEventArgs() { Item = _item });
             }
         }
 
@@ -218,11 +221,11 @@ namespace GridLock
         {
             try
             {
-                OnAdding?.Invoke(null, new GridLockEventArgs() { Item = item });
+                OnAdding?.Invoke(this, new GridLockEventArgs() { Item = item });
 
                 _storage.SaveObject(item);
 
-                OnAdded?.Invoke(null, new GridLockEventArgs() { Item = item });
+                OnAdded?.Invoke(this, new GridLockEventArgs() { Item = item });
 
                 return item;
             }
@@ -236,11 +239,11 @@ namespace GridLock
         {
             try
             {
-                OnUpdating?.Invoke(null, new GridLockEventArgs() { Item = item });
+                OnUpdating?.Invoke(this, new GridLockEventArgs() { Item = item });
 
                 _storage.UpdateObject(item);
 
-                OnUpdated?.Invoke(null, new GridLockEventArgs() { Item = item });
+                OnUpdated?.Invoke(this, new GridLockEventArgs() { Item = item });
 
                 return item;
             }
@@ -289,11 +292,11 @@ namespace GridLock
 
             if (_item != null)
             {
-                OnDestroying?.Invoke(null, new GridLockEventArgs() { Item = _item });
+                OnDestroying?.Invoke(this, new GridLockEventArgs() { Item = _item });
 
                 _storage.RemoveObject(Id);
 
-                OnDestroyed?.Invoke(null, new GridLockEventArgs() { Item = _item });
+                OnDestroyed?.Invoke(this, new GridLockEventArgs() { Item = _item });
             }
         }
 
@@ -303,11 +306,11 @@ namespace GridLock
 
             if (_item != null)
             {
-                OnDestroying?.Invoke(null, new GridLockEventArgs() { Item = _item });
+                OnDestroying?.Invoke(this, new GridLockEventArgs() { Item = _item });
 
                 _storage.RemoveObject(item.Id);
 
-                OnDestroyed?.Invoke(null, new GridLockEventArgs() { Item = _item });
+                OnDestroyed?.Invoke(this, new GridLockEventArgs() { Item = _item });
             }
         }
 

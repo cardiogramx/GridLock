@@ -1,8 +1,11 @@
 ﻿using System;
+
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.DependencyInjection;
+
 using GridLock.AspNetCore.Mvc.Authorization;
 using GridLock.Extensions.Storage.Distributed;
+
 
 namespace GridLock.Extensions.DependencyInjection
 {
